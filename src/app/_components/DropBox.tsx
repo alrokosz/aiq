@@ -12,36 +12,9 @@ function convertBytes(bytes: number) {
 
 export default function DropBox() {
   const [files, setFiles] = useState<FileList | null>(null);
-  const [readFile, setReadFile] = useState<null | string | ArrayBuffer>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
+  // const router = useRouter();
   const file = files?.[0];
-
-  /* 
-  const createPost = api.post.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
-      setName("");
-    },
-  });
-  */
-
-  if (file) {
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    reader.onload = async function (e) {
-      const arrayBuffer = e.target?.result;
-      if (arrayBuffer && !readFile) {
-        // const bytes = new Uint8Array(arrayBuffer);
-        // const blob = new Blob([bytes], { type: file.type });
-        // const url = URL.createObjectURL(blob);
-        setReadFile(arrayBuffer);
-      }
-    };
-  }
-
-  const uploadFile = api.post.uploadFile.useQuery({ file: readFile });
-  console.log({ uploadFile });
 
   const onBrowseClick = () => {
     inputRef.current?.click();
@@ -50,7 +23,6 @@ export default function DropBox() {
   const preventDefaults = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // console.log(e);
   };
 
   const drop = (e: React.DragEvent) => {
@@ -58,18 +30,14 @@ export default function DropBox() {
 
     const dt = e.dataTransfer;
     const files = dt.files;
-    // console.log(files);
     setFiles(files);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log("SUBMITTING");
     if (!file || !files) {
       return;
     }
-    // const newFile = await uploadFile.query({ file });
-    // console.log({ uploadFile });
   };
 
   return (
