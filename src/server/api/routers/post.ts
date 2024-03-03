@@ -34,6 +34,21 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
+  // uploadFile: publicProcedure
+  //   .input(z.object({ file: z.any().nullish() }))
+  //   .query(({ input }) => {
+  //     pdf(input.file)
+  //       .then(function (data: any) {
+  //         console.log(data);
+  //       })
+  //       .catch(function (error: any) {
+  //         console.log("ERROR");
+  //       });
+  //     return {
+  //       file: input,
+  //     };
+  //   }),
+
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
   }),
