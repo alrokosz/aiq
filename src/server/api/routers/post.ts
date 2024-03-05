@@ -1,11 +1,11 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
-} from "app/server/api/trpc";
-import { posts } from "app/server/db/schema";
+} from '@/server/api/trpc'
+import { posts } from '@/server/db/schema'
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
@@ -13,43 +13,28 @@ export const postRouter = createTRPCRouter({
     .query(({ input }) => {
       return {
         greeting: `Hello ${input.text}`,
-      };
+      }
     }),
 
   create: protectedProcedure
     .input(z.object({ name: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
       // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
       await ctx.db.insert(posts).values({
         name: input.name,
         createdById: ctx.session.user.id,
-      });
+      })
     }),
 
   getLatest: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.posts.findFirst({
       orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-    });
+    })
   }),
-
-  // uploadFile: publicProcedure
-  //   .input(z.object({ file: z.any().nullish() }))
-  //   .query(({ input }) => {
-  //     pdf(input.file)
-  //       .then(function (data: any) {
-  //         console.log(data);
-  //       })
-  //       .catch(function (error: any) {
-  //         console.log("ERROR");
-  //       });
-  //     return {
-  //       file: input,
-  //     };
-  //   }),
 
   getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
+    return 'you can now see this secret message!'
   }),
-});
+})
