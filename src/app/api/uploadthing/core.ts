@@ -21,17 +21,8 @@ export const ourFileRouter = {
     }),
   fileUploader: f({
     pdf: { maxFileSize: '32MB' },
-  }).onUploadComplete(async ({ metadata, file }) => {
-    // console.log('metadata', metadata)
-    // const fileResponse = await fetch(
-    //   'https://utfs.io/f/bf01ba6c-949a-4130-8a86-1160894236cc-r8cook.pdf',
-    //   { method: 'GET', headers: { 'Content-Type': 'application/pdf' } },
-    // )
-    // const blob = await fileResponse.blob()
-    const cards = await generateCardsFromPDF(file.url)
-    // const readFile = await pdf(blob)
-    // console.log({ blob })
-    return { cards: cards }
+  }).onUploadComplete(async ({ file }) => {
+    return { file }
   }),
 } satisfies FileRouter
 
