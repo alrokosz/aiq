@@ -13,9 +13,12 @@
 // } satisfies Config
 
 import { defineConfig } from 'drizzle-kit'
+// let { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env
+console.log('DATABASE_URL', process.env.DATABASE_URL)
 export default defineConfig({
-  schema: './schema.ts',
+  schema: './src/server/db/schema.ts',
   driver: 'pg',
+  out: './drizzle',
   dbCredentials: {
     connectionString: process.env.DATABASE_URL!,
   },

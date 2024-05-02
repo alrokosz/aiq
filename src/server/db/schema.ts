@@ -21,23 +21,6 @@ import { type AdapterAccount } from 'next-auth/adapters'
  */
 export const createTable = pgTableCreator((name) => `aiq_${name}`)
 
-export const posts = createTable(
-  'post',
-  {
-    id: uuid('id').primaryKey().defaultRandom(),
-    name: varchar('name', { length: 256 }),
-    createdById: varchar('createdById', { length: 255 }).notNull(),
-    createdAt: timestamp('created_at')
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp('updatedAt').defaultNow(),
-  },
-  (example) => ({
-    createdByIdIdx: index('createdById_idx').on(example.createdById),
-    nameIndex: index('name_idx').on(example.name),
-  }),
-)
-
 export const users = createTable('user', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
   name: varchar('name', { length: 255 }),
