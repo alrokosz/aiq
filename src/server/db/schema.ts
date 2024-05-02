@@ -22,13 +22,13 @@ import { type AdapterAccount } from 'next-auth/adapters'
 export const createTable = pgTableCreator((name) => `aiq_${name}`)
 
 export const users = createTable('user', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  id: varchar('id').primaryKey().notNull(),
   name: varchar('name', { length: 255 }),
   email: varchar('email', { length: 255 }),
-  // emailVerified: timestamp('emailVerified', {
-  //   mode: 'date',
-  //   fsp: 3,
-  // }).default(sql`CURRENT_TIMESTAMP(3)`),
+  emailVerified: timestamp('emailVerified', {
+    mode: 'date',
+    // fsp: 3,
+  }).default(sql`CURRENT_TIMESTAMP(3)`),
   image: varchar('image', { length: 255 }),
 })
 
