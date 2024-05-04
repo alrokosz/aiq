@@ -1,13 +1,14 @@
 import { z } from 'zod'
+import { v4 as uuidv4 } from 'uuid'
 
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from '@/server/api/trpc'
-import { cards } from '@/server/db/schema'
+import { cards, uploads } from '@/server/db/schema'
 
-export const postRouter = createTRPCRouter({
+export const uploadRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {
@@ -16,23 +17,40 @@ export const postRouter = createTRPCRouter({
       }
     }),
 
-  // create: protectedProcedure
-  //   .input(z.object({ name: z.string().min(1) }))
-  //   .mutation(async ({ ctx, input }) => {
-  //     // simulate a slow db call
-  //     await new Promise((resolve) => setTimeout(resolve, 1000))
+  create: protectedProcedure
+    .input(z.object({ front: z.string().min(1), back: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(cards).values({
+        id: uuidv4(),
+        frontOfCard: input.front,
+        backOfCard: input.back,
+      })
+    }),
 
-  //     await ctx.db.insert(posts).values({
-  //       name: input.name,
-  //       createdById: ctx.session.user.id,
-  //     })
-  //   }),
+  uploadFile: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        size: z.number(),
+        url: z.string(),
+        key: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(uploads).values({
+        id: input.key,
+        name: input.name,
+        size: input.size,
+        url: input.url,
+        userId: ctx.session.user.id,
+      })
+    }),
 
-  // getLatest: publicProcedure.query(({ ctx }) => {
-  //   return ctx.db.query.posts.findFirst({
-  //     orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-  //   })
-  // }),
+  getUploads: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.query.uploads.findMany({
+      where: (uploads, { eq }) => eq(uploads.userId, ctx.session.user.id),
+    })
+  }),
 
   getSecretMessage: protectedProcedure.query(() => {
     return 'you can now see this secret message!'

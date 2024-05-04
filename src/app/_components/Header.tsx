@@ -21,7 +21,7 @@ export default async function Header() {
         </Link>
         {/* TODO: use real href here eventually */}
         <LinkWithAuth href="/upload">Tools</LinkWithAuth>
-        <LinkWithAuth href="/upload">Your Library</LinkWithAuth>
+        <LinkWithAuth href="/dashboard">Your Library</LinkWithAuth>
       </div>
       <div className="flex flex-none gap-4">
         <LinkWithAuth href="/upload">Generate</LinkWithAuth>

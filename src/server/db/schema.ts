@@ -1,6 +1,5 @@
 import { relations, sql } from 'drizzle-orm'
 import {
-  bigint,
   index,
   pgTableCreator,
   primaryKey,
@@ -8,7 +7,6 @@ import {
   timestamp,
   varchar,
   boolean,
-  uuid,
   integer as int,
 } from 'drizzle-orm/pg-core'
 import { type AdapterAccount } from 'next-auth/adapters'
@@ -100,11 +98,13 @@ export const cards = createTable('cards', {
   id: varchar('id', { length: 255 }).notNull().primaryKey(),
   frontOfCard: varchar('frontOfCard', { length: 255 }),
   backOfCard: varchar('backOfCard', { length: 255 }),
-  aiGenerated: boolean('aiGenerated'),
-  // userId
+  aiGenerated: boolean('aiGenerated').default(true),
 })
 
-export const decks = createTable('decks', {
+export const uploads = createTable('uploads', {
   id: varchar('id', { length: 255 }).notNull().primaryKey(),
   name: varchar('name', { length: 255 }),
+  size: int('size'),
+  url: varchar('url', { length: 255 }),
+  userId: varchar('userId').references(() => users.id),
 })

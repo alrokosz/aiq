@@ -7,14 +7,10 @@ import clsx from 'clsx'
 
 import type { OurFileRouter } from '@/app/api/uploadthing/core'
 import { generateReactHelpers } from '@uploadthing/react'
+import { getServerSession } from 'next-auth'
+import { UploadedFileData } from 'uploadthing/types'
 
 const { useUploadThing, uploadFiles } = generateReactHelpers<OurFileRouter>()
-
-function convertBytes(bytes: number) {
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
-  const i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1024))))
-  return `${Math.round(bytes / Math.pow(1024, i))} ${sizes[i]}`
-}
 
 export default function DropBox() {
   const [files, setFiles] = useState<File[]>([])
@@ -22,11 +18,29 @@ export default function DropBox() {
     'noFile' | 'valid' | 'invalid'
   >('noFile')
   const inputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
+  const cardMutation = api.uploads.uploadFile.useMutation({
+    onSuccess: () => {
+      router.push('/dashboard')
+    },
+    onError: (error) => {
+      // TODO: pop toast with error message
+      console.error(error)
+    },
+  })
   const { startUpload, permittedFileInfo, isUploading } = useUploadThing(
     'fileUploader',
     {
-      onClientUploadComplete: (res) => {
-        console.log(res)
+      onClientUploadComplete: async (res) => {
+        console.log('RES', res)
+        const { key, name, size, url } = res?.[0]?.serverData
+          .file as UploadedFileData
+        cardMutation.mutate({
+          key,
+          name,
+          size,
+          url,
+        })
       },
       onUploadError: (error) => {
         console.error(error)

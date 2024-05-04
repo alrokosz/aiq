@@ -1,6 +1,7 @@
 import { createUploadthing, type FileRouter } from 'uploadthing/next'
 import { UploadThingError } from 'uploadthing/server'
 import { generateCardsFromPDF } from '@/server/utils/generateCards'
+import { api } from '@/trpc/server'
 
 const f = createUploadthing()
 
