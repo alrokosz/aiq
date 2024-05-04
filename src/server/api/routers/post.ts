@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { v4 as uuidv4 } from 'uuid'
+import { nanoid } from 'nanoid'
 
 import {
   createTRPCRouter,
@@ -33,16 +34,17 @@ export const uploadRouter = createTRPCRouter({
         name: z.string(),
         size: z.number(),
         url: z.string(),
-        key: z.string(),
+        uploadThingKey: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.insert(uploads).values({
-        id: input.key,
+        id: nanoid(),
         name: input.name,
         size: input.size,
         url: input.url,
         userId: ctx.session.user.id,
+        uploadThingKey: input.uploadThingKey,
       })
     }),
 

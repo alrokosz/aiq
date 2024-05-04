@@ -9,8 +9,9 @@ import type { OurFileRouter } from '@/app/api/uploadthing/core'
 import { generateReactHelpers } from '@uploadthing/react'
 import { getServerSession } from 'next-auth'
 import { UploadedFileData } from 'uploadthing/types'
+import { convertBytes } from '@/utils/lib'
 
-const { useUploadThing, uploadFiles } = generateReactHelpers<OurFileRouter>()
+const { useUploadThing } = generateReactHelpers<OurFileRouter>()
 
 export default function DropBox() {
   const [files, setFiles] = useState<File[]>([])
@@ -33,10 +34,10 @@ export default function DropBox() {
     {
       onClientUploadComplete: async (res) => {
         console.log('RES', res)
-        const { key, name, size, url } = res?.[0]?.serverData
-          .file as UploadedFileData
+        const { key, name, size, url } = res?.[0]
+          ?.serverData as UploadedFileData
         cardMutation.mutate({
-          key,
+          uploadThingKey: key,
           name,
           size,
           url,
