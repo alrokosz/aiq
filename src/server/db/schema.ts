@@ -107,4 +107,8 @@ export const uploads = createTable('uploads', {
   size: int('size'),
   url: varchar('url', { length: 255 }),
   userId: varchar('userId').references(() => users.id),
+  uploadThingKey: varchar('uploadThingKey', { length: 255 }),
+  uploadedAt: timestamp('uploadedAt', {
+    mode: 'date',
+  }).default(sql`CURRENT_TIMESTAMP(3)`),
 })

@@ -1,6 +1,7 @@
 import { getServerAuthSession } from '@/server/auth'
 import { api } from '@/trpc/server'
 import type { Metadata } from 'next'
+import UploadCard from '../_components/UploadCard'
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -10,16 +11,14 @@ export const metadata: Metadata = {
 export default async function Home() {
   const session = await getServerAuthSession()
   const uploads = await api.uploads.getUploads.query()
+  console.log(uploads)
 
   return (
     <main className="min-h-full p-6">
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
-      <div className="grid grid-cols-3 gap-4">
-        {uploads.map((upload) => (
-          <div key={upload.id} className="rounded-lg bg-white p-4">
-            <h2 className="text-lg font-semibold">{upload.name}</h2>
-            <p className="text-sm text-gray-500">{upload.size}</p>
-          </div>
+      <h1 className="text-text-main mb-6 text-4xl font-semibold">Dashboard</h1>
+      <div className="grid-cols-card grid gap-6">
+        {uploads?.map(({ name, size }) => (
+          <UploadCard name={name} size={size} />
         ))}
       </div>
     </main>

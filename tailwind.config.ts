@@ -20,10 +20,14 @@ export default withUt({
         'button-alt-secondary-hover': 'color(display-p3 0.91765 0.94902 1)',
         'button-primary-text': '#fff',
         'button-primary-hover': '#333',
+        'border-main': '#000',
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
         josefinSans: ['var(--font-josefin-sans)'],
+      },
+      gridTemplateColumns: {
+        card: 'repeat(auto-fill,minmax(min(200px, 100%), 1fr));',
       },
       keyframes: {
         slideUp: {

@@ -23,7 +23,7 @@ export const ourFileRouter = {
   fileUploader: f({
     pdf: { maxFileSize: '32MB' },
   }).onUploadComplete(async ({ file }) => {
-    return { file }
+    return { ...file, name: file.name.replace('.pdf', '').trim() }
   }),
 } satisfies FileRouter
 
