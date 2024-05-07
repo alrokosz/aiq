@@ -27,7 +27,7 @@ export default withUt({
         josefinSans: ['var(--font-josefin-sans)'],
       },
       gridTemplateColumns: {
-        card: 'repeat(auto-fill,minmax(min(200px, 100%), 1fr));',
+        card: 'repeat(auto-fill,minmax(min(240px, 100%), 1fr));',
       },
       keyframes: {
         slideUp: {

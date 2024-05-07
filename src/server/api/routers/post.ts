@@ -54,6 +54,14 @@ export const uploadRouter = createTRPCRouter({
     })
   }),
 
+  getUpload: protectedProcedure
+    .input(z.object({ uploadId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.query.uploads.findMany({
+        where: (uploads, { eq }) => eq(uploads.id, input.uploadId),
+      })
+    }),
+
   getSecretMessage: protectedProcedure.query(() => {
     return 'you can now see this secret message!'
   }),

@@ -22,10 +22,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="h-full">
-      <body className={`h-full font-sans ${inter.variable}`}>
-        <Header />
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+    <html lang="en" className="min-h-full">
+      <body className={`min-h-full font-sans ${inter.variable}`}>
+        <TRPCReactProvider>
+          <>
+            <Header />
+            {children}
+          </>
+        </TRPCReactProvider>
       </body>
     </html>
   )
