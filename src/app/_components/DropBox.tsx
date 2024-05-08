@@ -33,7 +33,6 @@ export default function DropBox() {
     'fileUploader',
     {
       onClientUploadComplete: async (res) => {
-        console.log('RES', res)
         const { key, name, size, url } = res?.[0]
           ?.serverData as UploadedFileData
         cardMutation.mutate({

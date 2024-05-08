@@ -18,7 +18,6 @@ export default async function Home() {
   //   file: new File(["hello"], "hello.txt"),
   // });
   const session = await getServerAuthSession()
-  console.log(session)
 
   return (
     <main className="min-h-full">
