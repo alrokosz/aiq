@@ -12,7 +12,6 @@ export default async function UploadPage({
     uploadId: params.uploadId,
   })
 
-  console.log('UPLOAD', upload)
   if (!upload[0]) {
     return notFound()
   }
