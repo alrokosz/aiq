@@ -5,6 +5,7 @@ import { getServerAuthSession } from '@/server/auth'
 import { api } from '@/trpc/server'
 import type { Metadata } from 'next'
 import HomePageHero from './_components/HomePageHero'
+import FlippyCard from './_components/FlippyCard'
 
 export const metadata: Metadata = {
   title: 'AIQ',
@@ -20,8 +21,9 @@ export default async function Home() {
   const session = await getServerAuthSession()
 
   return (
-    <main className="min-h-full">
+    <main className="relative min-h-full">
       <HomePageHero />
+      <FlippyCard />
     </main>
   )
 }

@@ -1,8 +1,8 @@
 import { type Config } from 'tailwindcss'
 import { fontFamily } from 'tailwindcss/defaultTheme'
-import { withUt } from 'uploadthing/tw'
+import plugin from 'tailwindcss/plugin'
 
-export default withUt({
+export default {
   content: ['./src/**/*.tsx'],
   theme: {
     extend: {
@@ -36,14 +36,45 @@ export default withUt({
         },
         heroEnter: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'none' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+          // '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        flipIn: {
+          '0%': { transform: 'rotateX(180deg)' },
+          '100%': { transform: 'rotateX(1turn)' },
+        },
+        flipOut: {
+          '0%': { transform: 'rotateX(0deg)' },
+          '100%': { transform: 'rotateX(180deg)' },
         },
       },
       animation: {
         'slide-up': 'slideUp 1s linear',
-        'hero-enter': 'heroEnter .6s both',
+        'hero-enter': 'heroEnter .9s linear',
+        'flip-in': 'flipIn 5s ease-in-out 1',
+        'flip-out': 'flipOut 5s ease-in-out 1',
       },
     },
   },
-  plugins: [],
-}) satisfies Config
+  plugins: [
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.backface-visible': {
+          'backface-visibility': 'visible',
+        },
+        '.backface-hidden': {
+          'backface-visibility': 'hidden',
+        },
+        '.animation-fill-forwards': {
+          'animation-fill-mode': 'forwards',
+        },
+        '.perspective-62': {
+          perspective: '62.5rem',
+        },
+        '.preserve-3d': {
+          'transform-style': 'preserve-3d',
+        },
+      })
+    }),
+  ],
+} satisfies Config
