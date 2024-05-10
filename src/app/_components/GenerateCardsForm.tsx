@@ -3,7 +3,7 @@ import * as Form from '@radix-ui/react-form'
 
 export default function GenerateCardsForm() {
   return (
-    <Form.Root className="FormRoot">
+    <Form.Root className="FormRoot w-80">
       <Form.Field className="FormField grid" name="number">
         <div className="mb-3 flex flex-col items-center justify-between">
           <div className="mb-3 flex">
@@ -12,7 +12,7 @@ export default function GenerateCardsForm() {
             </Form.Label>
             <Form.Control asChild>
               <input
-                className="Input inline-flex w-full items-center justify-center rounded-md p-1 text-sm hover:shadow-sm focus:shadow"
+                className="Input flex w-full items-center justify-center rounded-md p-2 text-center text-sm hover:shadow-sm focus:shadow"
                 type="number"
                 required
                 max={100}
@@ -41,16 +41,16 @@ export default function GenerateCardsForm() {
         </div>
       </Form.Field>
       <Form.Field className="FormField mb-3 grid" name="question">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'baseline',
-            justifyContent: 'space-between',
-          }}
-        >
+        <div className="mb-3 flex flex-col items-center justify-between gap-3">
           <Form.Label className="FormLabel text-button-primary-text text-base font-semibold leading-8">
             Anything you'd like to add?
           </Form.Label>
+          <Form.Control asChild>
+            <textarea
+              className="Textarea inline-flex h-28 w-full resize-none items-center justify-center rounded-md p-3 text-sm leading-none hover:shadow-sm focus:shadow"
+              required
+            />
+          </Form.Control>
           <Form.Message
             className="FormMessage text-button-primary-text text-sm opacity-75"
             match="valueMissing"
@@ -58,15 +58,11 @@ export default function GenerateCardsForm() {
             Please enter a question
           </Form.Message>
         </div>
-        <Form.Control asChild>
-          <textarea
-            className="Textarea inline-flex w-full items-center justify-center rounded-md p-3 text-sm leading-none hover:shadow-sm focus:shadow"
-            required
-          />
-        </Form.Control>
       </Form.Field>
       <Form.Submit asChild>
-        <button className="Button mt-3">Post question</button>
+        <button className="Button text-button-primary-text bg-button-primary inline-flex h-9 w-full items-center justify-center rounded-sm text-base font-semibold leading-none">
+          Generate flashcards
+        </button>
       </Form.Submit>
     </Form.Root>
   )

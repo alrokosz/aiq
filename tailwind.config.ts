@@ -51,8 +51,8 @@ export default {
       animation: {
         'slide-up': 'slideUp 1s linear',
         'hero-enter': 'heroEnter .9s linear',
-        'flip-in': 'flipIn 5s ease-in-out 1',
-        'flip-out': 'flipOut 5s ease-in-out 1',
+        'flip-in': 'flipIn .25s ease-in-out 1',
+        'flip-out': 'flipOut .25s ease-in-out 1',
       },
     },
   },

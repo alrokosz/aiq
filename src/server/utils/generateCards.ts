@@ -5,8 +5,6 @@ import { CharacterTextSplitter } from 'langchain/text_splitter'
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
 import OpenAI from 'openai'
 import { pdf } from './openAIChatOptions'
-import Anthropic from '@anthropic-ai/sdk'
-import { UploadThingError } from 'uploadthing/server'
 
 export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -42,16 +40,8 @@ export const docsFromPDF = async (input: Blob) => {
   //   )
 }
 
-export const generateCardsFromPDF = async (url: string) => {
-  const fileResponse = await fetch(url, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/pdf' },
-  })
-  const blob = await fileResponse.blob()
-  const docs = await docsFromPDF(blob)
-  const allPages = docs.reduce((acc, cur) => acc + cur.pageContent, '')
-
-  const response = await openai.chat.completions.create({
+const createFlashCardsChat = async (input: string) => {
+  return await openai.chat.completions.create({
     model: 'gpt-4-turbo-preview',
     temperature: 0,
     messages: [
@@ -63,13 +53,43 @@ export const generateCardsFromPDF = async (url: string) => {
       {
         role: 'user',
         content: `I have a document I would like to create flashcards from. Please create 5 questions and 5 answers from the document provided. Focus on Names and dates. Ignore the table of contents and the anything about the author of the document.
-          Here is the document:${allPages}
+          Here is the document:${input}
           `,
       },
     ],
   })
-  console.log('RESPONSE', response)
-  //   console.log('FINISH REASON', response.choices[0]?.finish_reason)
-  //   console.log(response.choices?.[0]?.message.content)
-  return response.choices?.[0] //?.message.content
+}
+
+export const generateCardsFromPDF = async (url: string) => {
+  const fileResponse = await fetch(url, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/pdf' },
+  })
+  const blob = await fileResponse.blob()
+  const docs = await docsFromPDF(blob)
+  const allPages = docs.reduce((acc, cur) => acc + cur.pageContent, '')
+  const firstStart = 0
+  const firstEnd = allPages.length / 3 + 1000
+  const secondStart = allPages.length / 3
+  const secondEnd = (allPages.length / 3) * 2 + 1000
+  const thirdStart = (allPages.length / 3) * 2
+  const thirdEnd = allPages.length - 1
+
+  if (allPages.length > 10000) {
+    const response = await Promise.all([
+      createFlashCardsChat(allPages.slice(firstStart, firstEnd)),
+      createFlashCardsChat(allPages.slice(secondStart, secondEnd)),
+      createFlashCardsChat(allPages.slice(thirdStart, thirdEnd)),
+    ])
+
+    console.log('RESPONSE', response)
+    return [
+      response[0].choices?.[0],
+      response[1].choices?.[0],
+      response[2].choices?.[0],
+    ] //?.message.content
+  } else {
+    const response = await createFlashCardsChat(allPages)
+    return response.choices?.[0]
+  }
 }

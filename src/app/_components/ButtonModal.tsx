@@ -62,9 +62,9 @@ export default function ButtonModal({
         ref={buttonRef}
         onClick={onButtonClick}
         className={clsx(
-          'bg-button-alt text-button-primary-text mr-auto self-start rounded p-3',
+          'bg-button-alt text-button-primary-text mr-auto self-start rounded p-2 text-xs sm:p-3 sm:text-base',
           className,
-          { 'border-button-text border-2': isMaximized },
+          { 'border-button-text mb-6 border-2': isMaximized },
         )}
       >
         {isMaximized ? 'Go back' : buttonText}
