@@ -74,6 +74,15 @@ export default {
         '.preserve-3d': {
           'transform-style': 'preserve-3d',
         },
+        '.width-revert': {
+          width: 'revert',
+        },
+        '.height-revert': {
+          height: 'revert',
+        },
+        '.perspective-origin-top': {
+          'perspective-origin': 'top',
+        },
       })
     }),
   ],

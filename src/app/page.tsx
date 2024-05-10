@@ -15,9 +15,6 @@ export const metadata: Metadata = {
 export default async function Home() {
   noStore()
   const hello = await api.uploads.hello.query({ text: 'from tRPC' })
-  // const file = await api.uploads.uploadFile.query({
-  //   file: new File(["hello"], "hello.txt"),
-  // });
   const session = await getServerAuthSession()
 
   return (

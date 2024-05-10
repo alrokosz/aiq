@@ -1,3 +1,5 @@
+import ButtonModal from '@/app/_components/ButtonModal'
+import GenerateCardsForm from '@/app/_components/GenerateCardsForm'
 import { getServerAuthSession } from '@/server/auth'
 import { api } from '@/trpc/server'
 import { notFound } from 'next/navigation'
@@ -19,6 +21,9 @@ export default async function UploadPage({
   return (
     <main className="p-6">
       <h1 className="text-3xl font-semibold">{name}</h1>
+      <ButtonModal buttonText="Create Flashcards">
+        <GenerateCardsForm />
+      </ButtonModal>
     </main>
   )
 }
