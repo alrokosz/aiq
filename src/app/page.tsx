@@ -20,7 +20,7 @@ export default async function Home() {
   return (
     <main className="relative min-h-full">
       <HomePageHero />
-      <FlippyCard />
+      <FlippyCard frontText="HELLO" backText="GOODBYE" />
     </main>
   )
 }

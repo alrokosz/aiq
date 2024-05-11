@@ -2,12 +2,16 @@
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
-export default function FlippyCard() {
+type FlippyCardProps = {
+  frontText: string
+  backText: string
+}
+
+export default function FlippyCard({ frontText, backText }: FlippyCardProps) {
   // need null here so it doesn't animate when the page loads
   const [sideofCardShowing, setSideofCardShowing] = useState<
     'front' | 'back' | null
   >(null)
-  console.log({ sideofCardShowing })
   const handleCardClick = (e: any) => {
     if (sideofCardShowing === 'back') {
       setSideofCardShowing('front')
@@ -27,7 +31,7 @@ export default function FlippyCard() {
           { 'animate-flip-out': sideofCardShowing === 'front' },
         )}
       >
-        <h2>back</h2>
+        <h2>{backText}</h2>
       </div>
       <div
         onClick={handleCardClick}
@@ -38,7 +42,7 @@ export default function FlippyCard() {
           { 'animate-flip-in': sideofCardShowing === 'front' },
         )}
       >
-        <h2>front</h2>
+        <h2>{frontText}</h2>
       </div>
     </div>
   )

@@ -20,7 +20,7 @@ export default async function UploadPage({
   const { name } = upload[0] || {}
   return (
     <main className="p-6">
-      <h1 className="text-3xl font-semibold">{name}</h1>
+      <h1 className="mb-6 text-3xl font-semibold">{name}</h1>
       <ButtonModal buttonText="Create Flashcards">
         <GenerateCardsForm />
       </ButtonModal>

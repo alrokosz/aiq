@@ -42,10 +42,13 @@ export default function ButtonModal({
 
   return (
     <motion.div
-      // onClick={() => setIsMaximized(!isMaximized)}
-      layout={true}
+      layout
       transition={SPRING}
-      onAnimationEnd={() => console.log('ENDED')}
+      onAnimationComplete={() => console.log('COMPLETE')}
+      onAnimationEnd={(def) => console.log(def)}
+      initial={{
+        borderRadius: '4px',
+      }}
       // className={`wrapper ${isMaximized ? 'maximized' : ''}`}
       // might need will-change-auto or something like that
       className={clsx(
@@ -61,6 +64,9 @@ export default function ButtonModal({
         transition={SPRING}
         ref={buttonRef}
         onClick={onButtonClick}
+        initial={{
+          borderRadius: '4px',
+        }}
         className={clsx(
           'bg-button-alt text-button-primary-text mr-auto self-start rounded p-2 text-xs sm:p-3 sm:text-base',
           className,

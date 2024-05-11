@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import MotionLink from './MotionLink'
 import SearchBar from './SearchBar'
 import { getServerAuthSession } from '@/server/auth'
 import LinkWithAuth from './LinkWithAuth'
@@ -16,23 +16,31 @@ export default async function Header() {
   return (
     <header className="bg-bg-main sticky top-0 flex w-full items-center gap-8 p-4 text-white">
       <div className="mr-auto flex h-4 flex-none items-center gap-7">
-        <Link href="/" className="text-text-main text-4xl font-bold">
-          AIQ
-        </Link>
-        {/* TODO: use real href here eventually */}
-        <LinkWithAuth href="/upload">Tools</LinkWithAuth>
-        <LinkWithAuth href="/dashboard">Your Library</LinkWithAuth>
-      </div>
-      <div className="flex flex-none gap-4">
-        <LinkWithAuth href="/upload">Generate</LinkWithAuth>
-
-        <Link
-          href={session ? '/api/auth/signout' : '/api/auth/signin'}
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
+        <MotionLink
+          motion={false}
+          href="/"
+          className="text-text-main text-4xl font-bold"
         >
-          {session ? 'Sign out' : 'Sign in'}
-        </Link>
+          AIQ
+        </MotionLink>
+        {/* TODO: use real href here eventually */}
+        <LinkWithAuth className="text-text-main" href="/upload">
+          Tools
+        </LinkWithAuth>
+        <LinkWithAuth className="text-text-main" href="/dashboard">
+          Your Library
+        </LinkWithAuth>
+        <LinkWithAuth className="text-text-main" href="/upload">
+          Generate
+        </LinkWithAuth>
       </div>
+
+      <MotionLink
+        href={session ? '/api/auth/signout' : '/api/auth/signin'}
+        className="bg-button-primary text-button-primary-text rounded px-10 py-3 font-semibold no-underline transition"
+      >
+        {session ? 'Sign out' : 'Sign in'}
+      </MotionLink>
     </header>
   )
 }
