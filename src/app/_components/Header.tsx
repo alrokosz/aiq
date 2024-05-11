@@ -24,14 +24,11 @@ export default async function Header() {
           AIQ
         </MotionLink>
         {/* TODO: use real href here eventually */}
-        <LinkWithAuth className="text-text-main" href="/upload">
-          Tools
-        </LinkWithAuth>
         <LinkWithAuth className="text-text-main" href="/dashboard">
-          Your Library
+          Library
         </LinkWithAuth>
         <LinkWithAuth className="text-text-main" href="/upload">
-          Generate
+          Upload
         </LinkWithAuth>
       </div>
 

@@ -1,11 +1,11 @@
 import '../styles/globals.css'
 
-import { Inter, Josefin_Sans } from 'next/font/google'
+import { Inter, Josefin_Sans, Work_Sans } from 'next/font/google'
 
 import { TRPCReactProvider } from '@/trpc/react'
 import Header from './_components/Header'
 
-const inter = Inter({
+const josefinSans = Josefin_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
 })
@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="min-h-full">
-      <body className={`min-h-full font-sans ${inter.variable}`}>
+      <body className={`min-h-full font-sans ${josefinSans.variable}`}>
         <TRPCReactProvider>
           <>
             <Header />
