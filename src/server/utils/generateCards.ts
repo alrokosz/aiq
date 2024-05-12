@@ -40,27 +40,67 @@ export const docsFromPDF = async (input: Blob) => {
   //   )
 }
 
-const createFlashCardsChat = async (input: string) => {
+const createFlashCardsChat = async (
+  input: string,
+  numCards: number,
+  extraInfo: string,
+) => {
   return await openai.chat.completions.create({
     model: 'gpt-4-turbo-preview',
     temperature: 0,
     messages: [
       {
         role: 'system',
-        content:
-          'You will be creating flashcards for a user based on the input they provide. Please generate 5 questions with 5 answers. Proide the response in JSON format. Similiar to this example [{"question": "...", "answer": "..."}]}',
+        content: `Your task is to generate flashcards tailored to users' inputs, focusing specifically on important historical figures and events. Please create ${numCards} questions along with ${numCards} corresponding answers, formatted in JSON. Ensure that each question pertains to a significant person or event, providing detailed information. The document may contain information about the author or lecturer of the document, and may include a table of contents. Please ignore anythinf relating to the lecturer, author, or table of contents Your output should follow this structure: [{"question": "...", "answer": "..."}]
+        Here are some examples to guide you: 
+        [
+            {
+                "question": "Who was the first President of the United States?",
+                "answer": "George Washington"
+            },
+            {
+                "question": "What event marked the beginning of World War II?",
+                "answer": "The invasion of Poland by Nazi Germany in 1939"
+            },
+            {
+                "question": "What was the result of the Battle of Hastings?",
+                "answer": "The Norman conquest of England in 1066"
+            },
+            {
+                "question": "What event led to the start of the American Revolutionary War?",
+                "answer": "The Battles of Lexington and Concord in 1775"
+            },
+            {
+                "question": "What was the significance of the Berlin Wall?",
+                "answer": "It divided East and West Berlin during the Cold War"
+            },
+            {
+                "question": "Which ancient civilization built the Great Pyramid of Giza?",
+                "answer": "Ancient Egyptians"
+            },
+            {
+                "question": "Who is known as the 'Father of Physics'?",
+                "answer": "Isaac Newton"
+            },
+        ]
+        
+        These examples demonstrate the types of questions and answers we're looking for in the flashcards. Please ensure your output aligns with this format and provides informative content.`,
       },
       {
         role: 'user',
-        content: `I have a document I would like to create flashcards from. Please create 5 questions and 5 answers from the document provided. Focus on Names and dates. Ignore the table of contents and the anything about the author of the document.
-          Here is the document:${input}
+        content: `I have a document I would like to create flashcards from. Please create ${numCards} questions and ${numCards} answers from the document provided. Focus on Names and dates. Ignore the table of contents and the anything about the author of the document. ${extraInfo ? `Please keep the following in mind as well: ${extraInfo}` : ''}
+          Here is the document: ${input}
           `,
       },
     ],
   })
 }
 
-export const generateCardsFromPDF = async (url: string) => {
+export const generateCardsFromPDF = async (
+  url: string,
+  numCards: number,
+  extraInfo: string,
+) => {
   const fileResponse = await fetch(url, {
     method: 'GET',
     headers: { 'Content-Type': 'application/pdf' },
@@ -77,9 +117,21 @@ export const generateCardsFromPDF = async (url: string) => {
 
   if (allPages.length > 10000) {
     const response = await Promise.all([
-      createFlashCardsChat(allPages.slice(firstStart, firstEnd)),
-      createFlashCardsChat(allPages.slice(secondStart, secondEnd)),
-      createFlashCardsChat(allPages.slice(thirdStart, thirdEnd)),
+      createFlashCardsChat(
+        allPages.slice(firstStart, firstEnd),
+        numCards,
+        extraInfo,
+      ),
+      createFlashCardsChat(
+        allPages.slice(secondStart, secondEnd),
+        numCards,
+        extraInfo,
+      ),
+      createFlashCardsChat(
+        allPages.slice(thirdStart, thirdEnd),
+        numCards,
+        extraInfo,
+      ),
     ])
 
     console.log('RESPONSE', response)
@@ -89,7 +141,7 @@ export const generateCardsFromPDF = async (url: string) => {
       response[2].choices?.[0],
     ] //?.message.content
   } else {
-    const response = await createFlashCardsChat(allPages)
+    const response = await createFlashCardsChat(allPages, numCards, extraInfo)
     return response.choices?.[0]
   }
 }

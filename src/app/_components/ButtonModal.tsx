@@ -64,6 +64,8 @@ export default function ButtonModal({
         transition={SPRING}
         ref={buttonRef}
         onClick={onButtonClick}
+        whileHover={{ scale: 1.025, transition: { duration: 0.1 } }}
+        whileTap={{ scale: 0.975, transition: { duration: 0.1 } }}
         initial={{
           borderRadius: '4px',
         }}

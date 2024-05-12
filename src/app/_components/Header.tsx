@@ -14,7 +14,7 @@ import LinkWithAuth from './LinkWithAuth'
 export default async function Header() {
   const session = await getServerAuthSession()
   return (
-    <header className="bg-bg-main sticky top-0 flex w-full items-center gap-8 p-4 text-white">
+    <header className="bg-bg-main sticky top-0 flex w-full items-center gap-8 px-6 py-4 text-white">
       <div className="mr-auto flex h-4 flex-none items-center gap-7">
         <MotionLink
           motion={false}

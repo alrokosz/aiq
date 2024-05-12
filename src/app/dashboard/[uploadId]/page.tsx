@@ -1,4 +1,5 @@
 import ButtonModal from '@/app/_components/ButtonModal'
+import Cards from '@/app/_components/Cards'
 import GenerateCardsForm from '@/app/_components/GenerateCardsForm'
 import { getServerAuthSession } from '@/server/auth'
 import { api } from '@/trpc/server'
@@ -17,6 +18,7 @@ export default async function UploadPage({
   if (!upload[0]) {
     return notFound()
   }
+
   const { name } = upload[0] || {}
   return (
     <main className="p-6">
@@ -24,6 +26,7 @@ export default async function UploadPage({
       <ButtonModal buttonText="Create Flashcards">
         <GenerateCardsForm />
       </ButtonModal>
+      <Cards />
     </main>
   )
 }
