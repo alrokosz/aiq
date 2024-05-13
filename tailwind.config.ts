@@ -3,7 +3,14 @@ import { fontFamily } from 'tailwindcss/defaultTheme'
 import plugin from 'tailwindcss/plugin'
 
 export default {
-  content: ['./src/**/*.tsx'],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  ],
+  prefix: '',
+  darkMode: ['class'],
   theme: {
     extend: {
       boxShadow: {
@@ -57,6 +64,7 @@ export default {
     },
   },
   plugins: [
+    require('tailwindcss-animate'),
     plugin(function ({ addUtilities }) {
       addUtilities({
         '.backface-visible': {
