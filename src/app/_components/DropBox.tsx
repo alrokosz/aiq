@@ -4,10 +4,8 @@ import { UploadIcon } from '@radix-ui/react-icons'
 import { api } from '@/trpc/react'
 import { useRouter } from 'next/navigation'
 import clsx from 'clsx'
-
 import type { OurFileRouter } from '@/app/api/uploadthing/core'
 import { generateReactHelpers } from '@uploadthing/react'
-import { getServerSession } from 'next-auth'
 import { UploadedFileData } from 'uploadthing/types'
 import { convertBytes } from '@/utils/lib'
 
@@ -76,6 +74,14 @@ export default function DropBox() {
     }
   }
 
+  if (isUploading) {
+    return (
+      <div className="flex h-80 flex-col items-center justify-center gap-6 rounded-md border-2 border-black p-6">
+        <h2 className="text-xl text-black ">Uploading...</h2>
+      </div>
+    )
+  }
+
   return (
     <>
       <form
@@ -94,7 +100,7 @@ export default function DropBox() {
           type="file"
           id="summary"
           name="summary"
-          accept=".pdf,.doc,.docx"
+          accept=".pdf"
           onChange={(e) => {
             const file = e.target.files?.[0]
             file && setFiles([file])
@@ -110,13 +116,13 @@ export default function DropBox() {
             >
               <UploadIcon height={30} width={30} />
             </button>
-            <p>
+            <p className="text-center">
               Drag and drop file or{' '}
               <button type="button" onClick={onBrowseClick}>
                 <span className="text-purple-600">click to browse</span>
               </button>
             </p>
-            <p className=" text-sm">Supported file types: .docx, .pdf, .pptx</p>
+            <p className=" text-sm">Supported file types: .pdf</p>
           </>
         ) : (
           <>

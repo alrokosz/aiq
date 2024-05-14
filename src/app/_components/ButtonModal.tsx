@@ -44,18 +44,14 @@ export default function ButtonModal({
     <motion.div
       layout
       transition={SPRING}
-      onAnimationComplete={() => console.log('COMPLETE')}
-      onAnimationEnd={(def) => console.log(def)}
       initial={{
         borderRadius: '4px',
       }}
-      // className={`wrapper ${isMaximized ? 'maximized' : ''}`}
-      // might need will-change-auto or something like that
       className={clsx(
-        'bg-button-alt flex h-fit w-fit flex-col items-center justify-start rounded text-black',
+        'bg-button-alt relative flex h-fit w-fit flex-col items-center justify-start rounded text-black',
         {
-          'width-revert height-revert absolute inset-8 rounded p-6':
-            isMaximized,
+          // 'width-revert height-revert absolute inset-8 rounded p-6':
+          '  h-[450px] w-full rounded p-6': isMaximized,
         },
       )}
     >
@@ -75,7 +71,7 @@ export default function ButtonModal({
           { 'border-button-text mb-6 border-2': isMaximized },
         )}
       >
-        {isMaximized ? 'Go back' : buttonText}
+        {isMaximized ? 'Cancel' : buttonText}
       </motion.button>
       {isMaximized && children}
     </motion.div>

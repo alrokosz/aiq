@@ -2,13 +2,37 @@
 import * as Form from '@radix-ui/react-form'
 import { motion } from 'framer-motion'
 
-export default function GenerateCardsForm() {
+export default function GenerateCardsForm({
+  onSubmit = () => {},
+}: {
+  onSubmit?: () => void
+}) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const form = event.target
+    const formData = new FormData(form)
+    const number = formData.get('number')
+    const question = formData.get('extraInfo')
+
+    const res = await fetch('/api/ai', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ number, question }),
+    })
+    const { data } = await res.json()
+    console.log({ data })
+
+    onSubmit()
+  }
+
   return (
     <motion.div
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { duration: 0.5 } }}
     >
-      <Form.Root className="FormRoot w-80">
+      <Form.Root className="FormRoot w-80" onSubmit={handleSubmit}>
         <Form.Field className="FormField grid" name="number">
           <div className="mb-3 flex flex-col items-center justify-between">
             <div className="mb-3 flex">
@@ -45,7 +69,7 @@ export default function GenerateCardsForm() {
             </Form.Message>
           </div>
         </Form.Field>
-        <Form.Field className="FormField mb-3 grid" name="question">
+        <Form.Field className="FormField mb-3 grid" name="extraInfo">
           <div className="mb-3 flex flex-col items-center justify-between gap-3">
             <Form.Label className="FormLabel text-button-primary-text text-base font-semibold leading-8">
               Anything you'd like to add?
@@ -60,7 +84,7 @@ export default function GenerateCardsForm() {
               className="FormMessage text-button-primary-text text-sm opacity-75"
               match="valueMissing"
             >
-              Please enter a question
+              Please enter something to help make better flashcards
             </Form.Message>
           </div>
         </Form.Field>

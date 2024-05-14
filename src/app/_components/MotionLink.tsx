@@ -8,6 +8,7 @@ type MotionLinkProps = {
   href: string
   motion?: boolean
   className?: string
+  onClick?: () => void
 }
 
 const LinkWithMotion = motion(Link)
@@ -17,6 +18,7 @@ export default function MotionLink({
   children,
   motion = true,
   className,
+  onClick = () => {},
 }: MotionLinkProps) {
   const Tag = motion ? LinkWithMotion : Link
 
@@ -31,5 +33,9 @@ export default function MotionLink({
         }
       : {}),
   }
-  return <Tag {...props}>{children}</Tag>
+  return (
+    <Tag onClick={onClick} {...props}>
+      {children}
+    </Tag>
+  )
 }

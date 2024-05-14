@@ -21,7 +21,7 @@ export default async function Header() {
         <MotionLink
           motion={false}
           href="/"
-          className="text-text-main text-4xl font-bold"
+          className="text-text-main mb-[-8px] text-4xl font-bold"
         >
           AIQ
         </MotionLink>

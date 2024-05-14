@@ -46,7 +46,7 @@ const createFlashCardsChat = async (
   extraInfo: string,
 ) => {
   return await openai.chat.completions.create({
-    model: 'gpt-4-turbo-preview',
+    model: 'gpt-4o',
     temperature: 0,
     messages: [
       {
