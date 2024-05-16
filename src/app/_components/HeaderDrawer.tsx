@@ -63,7 +63,7 @@ export default function HeaderDrawer({ session }: { session: Session | null }) {
               //   dragConstraints={contentRef}
               dragConstraints={{
                 top: 0,
-                bottom: vh - draggableHeight - 32,
+                bottom: vh - draggableHeight - 48,
               }}
               onDrag={() => setShowSwipeInstructions(false)}
               dragTransition={{ bounceStiffness: 800, bounceDamping: 60 }}
@@ -106,23 +106,22 @@ export default function HeaderDrawer({ session }: { session: Session | null }) {
               </button>
             </motion.div>
             {showSwipeInstructions && (
-              <div className="mt-auto">
+              <div className="mt-auto p-4">
+                <FloatingDownArrow
+                  animate={{
+                    y: [0, 15, 0],
+                  }}
+                  transition={{
+                    ease: 'easeInOut',
+                    duration: 2,
+                    repeat: Infinity,
+                  }}
+                  className="mx-auto mb-4"
+                  color="#888888"
+                  width={36}
+                  height={36}
+                />
                 <p className="text-text-main text-center opacity-60">
-                  <FloatingDownArrow
-                    animate={{
-                      y: 15,
-                    }}
-                    initial={{ y: 0 }}
-                    transition={{
-                      ease: 'easeInOut',
-                      duration: 2,
-                      repeat: Infinity,
-                    }}
-                    className="mx-auto mb-4"
-                    color="#888888"
-                    width={36}
-                    height={36}
-                  />
                   Swipe down if you have tiny thumbs
                 </p>
               </div>

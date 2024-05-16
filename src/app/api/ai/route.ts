@@ -1,5 +1,6 @@
+import { generateCardsFromPDF } from '@/server/utils/generateCards'
+
 export async function GET(request: Request) {
-  //   console.log(process.env.OPENAI_API_KEY)
   console.log(request)
   const res = await fetch('https://poetrydb.org/title/Ozymandias/lines.json')
   const data = await res.json()
@@ -8,11 +9,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  //   console.log(process.env.OPENAI_API_KEY)
   const body = await request.json()
-  console.log(body)
-  const res = await fetch('https://poetrydb.org/title/Ozymandias/lines.json')
-  const data = await res.json()
+  const { number, question, url } = body
+  const data = await generateCardsFromPDF(url, number, question)
 
   return Response.json({ data })
 }

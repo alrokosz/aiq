@@ -1,30 +1,43 @@
 'use client'
 import * as Form from '@radix-ui/react-form'
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 export default function GenerateCardsForm({
   onSubmit = () => {},
+  url,
 }: {
   onSubmit?: () => void
+  url: string | null
 }) {
+  const [isLoadingFlashcards, setIsLoadingFlashcards] = useState(false)
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const form = event.target
     const formData = new FormData(form)
     const number = formData.get('number')
     const question = formData.get('extraInfo')
-
+    setIsLoadingFlashcards(true)
     const res = await fetch('/api/ai', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ number, question }),
+      body: JSON.stringify({ number, question, url }),
     })
     const { data } = await res.json()
     console.log({ data })
-
+    setIsLoadingFlashcards(false)
     onSubmit()
+  }
+
+  if (isLoadingFlashcards) {
+    return (
+      <div className="flex w-80 items-center justify-center">
+        <h2>Generating Cards</h2>
+        <div className="Loader border-button-primary h-10 w-10 animate-spin rounded-full border-2"></div>
+      </div>
+    )
   }
 
   return (

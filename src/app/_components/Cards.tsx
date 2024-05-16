@@ -12,14 +12,14 @@ const SPRING = {
 export default function Cards() {
   const [lines, setLines] = useState([])
 
-  // useEffect(() => {
-  //   const func = async () => {
-  //     const res = await fetch('/api/ai')
-  //     const { data } = await res.json()
-  //     setLines(data[0].lines)
-  //   }
-  //   func()
-  // }, [])
+  useEffect(() => {
+    const func = async () => {
+      const res = await fetch('/api/ai')
+      const { data } = await res.json()
+      setLines(data[0].lines)
+    }
+    func()
+  }, [])
 
   return (
     <motion.div layout="position" transition={SPRING}>

@@ -4,6 +4,7 @@ import GenerateCardsForm from '@/app/_components/GenerateCardsForm'
 import { getServerAuthSession } from '@/server/auth'
 import { api } from '@/trpc/server'
 import { notFound } from 'next/navigation'
+import UploadContent from '@/app/_components/UploadContent'
 
 export default async function UploadPage({
   params,
@@ -23,10 +24,7 @@ export default async function UploadPage({
   return (
     <main className="p-6">
       <h1 className="mb-6 text-3xl font-semibold">{name}</h1>
-      <ButtonModal buttonText="Create Flashcards">
-        <GenerateCardsForm />
-      </ButtonModal>
-      <Cards />
+      <UploadContent url={upload[0].url} />
     </main>
   )
 }
