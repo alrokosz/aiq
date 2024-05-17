@@ -13,7 +13,7 @@ export default async function Home() {
   const uploads = await api.uploads.getUploads.query()
 
   return (
-    <main className="min-h-full p-6">
+    <main className="mx-auto min-h-full  max-w-6xl p-6">
       <h1 className="text-text-main mb-6 text-4xl font-semibold">Dashboard</h1>
       <div className="grid-cols-card grid gap-6">
         {uploads?.map(({ name, size, id, uploadedAt }) => (

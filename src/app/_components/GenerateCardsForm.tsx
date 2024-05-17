@@ -14,11 +14,11 @@ export default function GenerateCardsForm({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const form = event.target
-    const formData = new FormData(form)
+    const formData = new FormData(form as HTMLFormElement)
     const number = formData.get('number')
     const question = formData.get('extraInfo')
     setIsLoadingFlashcards(true)
-    const res = await fetch('/api/ai', {
+    const res = await fetch('/api/ai/cards', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,16 +45,16 @@ export default function GenerateCardsForm({
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { duration: 0.5 } }}
     >
-      <Form.Root className="FormRoot w-80" onSubmit={handleSubmit}>
-        <Form.Field className="FormField grid" name="number">
+      <Form.Root className=" xs:w-80 w-full" onSubmit={handleSubmit}>
+        <Form.Field className="grid" name="number">
           <div className="mb-3 flex flex-col items-center justify-between">
             <div className="mb-3 flex">
-              <Form.Label className="FormLabel text-button-primary-text mr-3 text-nowrap text-base font-semibold leading-8">
+              <Form.Label className="text-button-primary-text xs:text-base mr-3 text-nowrap text-sm font-semibold leading-8">
                 How many cards do you want?
               </Form.Label>
               <Form.Control asChild>
                 <input
-                  className="Input flex w-full items-center justify-center rounded-md p-2 text-center text-sm hover:shadow-sm focus:shadow"
+                  className="flex w-full items-center justify-center rounded-md p-2 text-center text-sm hover:shadow-sm focus:shadow"
                   type="number"
                   required
                   max={100}
@@ -63,38 +63,35 @@ export default function GenerateCardsForm({
               </Form.Control>
             </div>
             <Form.Message
-              className="FormMessage text-button-primary-text text-sm opacity-75"
+              className="text-button-primary-text text-sm opacity-75"
               match="rangeOverflow"
             >
               Please enter a valid number between 1 - 100
             </Form.Message>
             <Form.Message
-              className="FormMessage text-button-primary-text text-sm opacity-75"
+              className="text-button-primary-text text-sm opacity-75"
               match="rangeUnderflow"
             >
               Please enter a valid number between 1 - 100
             </Form.Message>
             <Form.Message
-              className="FormMessage text-button-primary-text text-sm opacity-75"
+              className="text-button-primary-text text-sm opacity-75"
               match="typeMismatch"
             >
               Please enter a number
             </Form.Message>
           </div>
         </Form.Field>
-        <Form.Field className="FormField mb-3 grid" name="extraInfo">
+        <Form.Field className="mb-3 grid" name="extraInfo">
           <div className="mb-3 flex flex-col items-center justify-between gap-3">
-            <Form.Label className="FormLabel text-button-primary-text text-base font-semibold leading-8">
+            <Form.Label className="FormLabel text-button-primary-text xs:text-base text-sm font-semibold leading-8">
               Anything you'd like to add?
             </Form.Label>
             <Form.Control asChild>
-              <textarea
-                className="Textarea inline-flex h-28 w-full resize-none items-center justify-center rounded-md p-3 text-sm leading-none hover:shadow-sm focus:shadow"
-                required
-              />
+              <textarea className="inline-flex h-28 w-full resize-none items-center justify-center rounded-md p-3 text-sm leading-none hover:shadow-sm focus:shadow" />
             </Form.Control>
             <Form.Message
-              className="FormMessage text-button-primary-text text-sm opacity-75"
+              className="text-button-primary-text text-sm opacity-75"
               match="valueMissing"
             >
               Please enter something to help make better flashcards
@@ -102,7 +99,7 @@ export default function GenerateCardsForm({
           </div>
         </Form.Field>
         <Form.Submit asChild>
-          <button className="Button text-button-primary-text bg-button-primary inline-flex h-9 w-full items-center justify-center rounded-sm text-base font-semibold leading-none">
+          <button className="text-button-primary-text bg-button-primary inline-flex h-9 w-full items-center justify-center rounded-sm text-base font-semibold leading-none">
             Generate flashcards
           </button>
         </Form.Submit>

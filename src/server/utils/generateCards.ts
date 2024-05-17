@@ -37,7 +37,7 @@ const exampleJSONResponse = [
   },
 ]
 
-const MAX_GPT_3_TURBO_CHARACTERS = 50000
+const MAX_GPT_3_TURBO_CHARACTERS = 40000
 
 function sleep(millis: number) {
   return new Promise((resolve) => setTimeout(resolve, millis))
@@ -116,8 +116,6 @@ export const generateCardsFromPDF = async (
   const allPages = docs.reduce((acc, cur) => acc + cur.pageContent, '')
 
   const numCalls = Math.ceil(allPages.length / MAX_GPT_3_TURBO_CHARACTERS)
-  console.log('PAGES LENGTH', allPages.length)
-  console.log(numCalls)
   const allResponses: any = []
   try {
     for (let i = 0; i < numCalls; i++) {
@@ -133,7 +131,7 @@ export const generateCardsFromPDF = async (
         extraInfo,
       )
       console.log(res)
-      allResponses.push(res)
+      allResponses.push(res?.choices[0]?.message?.content)
     }
     return allResponses
   } catch (error) {

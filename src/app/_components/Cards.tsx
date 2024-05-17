@@ -14,7 +14,7 @@ export default function Cards() {
 
   useEffect(() => {
     const func = async () => {
-      const res = await fetch('/api/ai')
+      const res = await fetch('/api/ai/cards')
       const { data } = await res.json()
       setLines(data[0].lines)
     }

@@ -18,7 +18,7 @@ export default async function Home() {
   const session = await getServerAuthSession()
 
   return (
-    <main className="relative min-h-full">
+    <main className="relative min-h-full max-w-6xl">
       <HomePageHero />
       <FlippyCard frontText="HELLO" backText="GOODBYE" />
     </main>

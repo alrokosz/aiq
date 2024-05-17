@@ -22,7 +22,7 @@ export default async function UploadPage({
 
   const { name } = upload[0] || {}
   return (
-    <main className="p-6">
+    <main className="mx-auto max-w-6xl p-6">
       <h1 className="mb-6 text-3xl font-semibold">{name}</h1>
       <UploadContent url={upload[0].url} />
     </main>
