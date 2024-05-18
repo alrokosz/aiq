@@ -2,6 +2,12 @@
 import * as Form from '@radix-ui/react-form'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { api } from '@/trpc/react'
+
+type GeneratedCards = {
+  question: string
+  answer: string
+}[]
 
 export default function GenerateCardsForm({
   onSubmit = () => {},
@@ -11,6 +17,16 @@ export default function GenerateCardsForm({
   url: string | null
 }) {
   const [isLoadingFlashcards, setIsLoadingFlashcards] = useState(false)
+  const cardMutation = api.uploads.createCards.useMutation({
+    onSuccess: () => {
+      console.log('cards created')
+      // TODO: show toast at some point
+    },
+    onError: (error) => {
+      // TODO: pop toast with error message
+      console.error(error)
+    },
+  })
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const form = event.target
@@ -26,7 +42,17 @@ export default function GenerateCardsForm({
       body: JSON.stringify({ number, question, url }),
     })
     const { data } = await res.json()
-    console.log({ data })
+    console.log(data)
+    const uploadId = window.location.href.split('/').pop()
+    cardMutation.mutate(
+      data
+        .flat()
+        .map(({ question, answer }: { question: string; answer: string }) => ({
+          front: question,
+          back: answer,
+          uploadId,
+        })),
+    )
     setIsLoadingFlashcards(false)
     onSubmit()
   }

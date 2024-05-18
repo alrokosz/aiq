@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { v4 as uuidv4 } from 'uuid'
 import { nanoid } from 'nanoid'
 
 import {
@@ -18,37 +17,27 @@ export const uploadRouter = createTRPCRouter({
       }
     }),
 
-  create: protectedProcedure
-    .input(z.object({ front: z.string().min(1), back: z.string().min(1) }))
+  createCards: protectedProcedure
+    .input(
+      z
+        .object({
+          front: z.string().min(1),
+          back: z.string().min(1),
+          uploadId: z.string(),
+        })
+        .array(),
+    )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(cards).values({
-        id: uuidv4(),
-        frontOfCard: input.front,
-        backOfCard: input.back,
-      })
+      await ctx.db.insert(cards).values(
+        input.map((card) => ({
+          ...card,
+          id: nanoid(),
+          userId: ctx.session.user.id,
+        })),
+      )
     }),
 
   uploadFile: protectedProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        size: z.number(),
-        url: z.string(),
-        uploadThingKey: z.string(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(uploads).values({
-        id: nanoid(),
-        name: input.name,
-        size: input.size,
-        url: input.url,
-        userId: ctx.session.user.id,
-        uploadThingKey: input.uploadThingKey,
-      })
-    }),
-
-  addCards: protectedProcedure
     .input(
       z.object({
         name: z.string(),

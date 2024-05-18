@@ -25,7 +25,6 @@ export const users = createTable('user', {
   email: varchar('email', { length: 255 }),
   emailVerified: timestamp('emailVerified', {
     mode: 'date',
-    // fsp: 3,
   }).default(sql`CURRENT_TIMESTAMP(3)`),
   image: varchar('image', { length: 255 }),
 })
@@ -96,9 +95,25 @@ export const verificationTokens = createTable(
 
 export const cards = createTable('cards', {
   id: varchar('id', { length: 255 }).notNull().primaryKey(),
-  frontOfCard: varchar('frontOfCard', { length: 255 }),
-  backOfCard: varchar('backOfCard', { length: 255 }),
+  userId: varchar('userId', { length: 255 })
+    .notNull()
+    .references(() => users.id),
+  front: varchar('front').notNull(),
+  back: varchar('back').notNull(),
   aiGenerated: boolean('aiGenerated').default(true),
+  uploadId: varchar('uploadId')
+    .notNull()
+    .references(() => uploads.id),
+  lastSeen: timestamp('lastSeen').default(sql`CURRENT_TIMESTAMP(3)`),
+  nextReview: timestamp('nextReview').default(
+    sql`CURRENT_TIMESTAMP(3) + interval '7 days'`,
+  ),
+  // A value used in spaced repetition algorithms (like the SuperMemo SM2 algorithm)
+  // to determine the difficulty of the flashcard. The default value is typically set to 250 / 1000.
+  easeFactor: int('easeFactor').default(250),
+  //  The number of times the flashcard has been reviewed.
+  repetitions: int('repetitions').default(0),
+  createdAt: timestamp('createdAt').default(sql`CURRENT_TIMESTAMP(3)`),
 })
 
 export const uploads = createTable('uploads', {
@@ -111,4 +126,5 @@ export const uploads = createTable('uploads', {
   uploadedAt: timestamp('uploadedAt', {
     mode: 'date',
   }).default(sql`CURRENT_TIMESTAMP(3)`),
+  hasFlachcards: boolean('hasFlachcards').default(false),
 })

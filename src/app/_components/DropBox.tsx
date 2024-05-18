@@ -18,7 +18,7 @@ export default function DropBox() {
   >('noFile')
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
-  const cardMutation = api.uploads.uploadFile.useMutation({
+  const uploadMutation = api.uploads.uploadFile.useMutation({
     onSuccess: () => {
       router.push('/dashboard')
     },
@@ -33,7 +33,7 @@ export default function DropBox() {
       onClientUploadComplete: async (res) => {
         const { key, name, size, url } = res?.[0]
           ?.serverData as UploadedFileData
-        cardMutation.mutate({
+        uploadMutation.mutate({
           uploadThingKey: key,
           name,
           size,
