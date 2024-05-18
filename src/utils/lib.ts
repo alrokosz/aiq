@@ -4,3 +4,7 @@ export function convertBytes(bytes: number) {
   const i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1024))))
   return `${Math.round(bytes / Math.pow(1024, i))} ${sizes[i]}`
 }
+
+export function sleep(millis: number) {
+  return new Promise((resolve) => setTimeout(resolve, millis))
+}

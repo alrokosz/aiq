@@ -1,7 +1,6 @@
 import { generateImage } from '@/server/utils/generateImages'
 
 export async function GET(request: Request) {
-  console.log(request)
   const res = await fetch('https://poetrydb.org/title/Ozymandias/lines.json')
   const data = await res.json()
 

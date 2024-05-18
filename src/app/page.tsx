@@ -6,6 +6,7 @@ import { api } from '@/trpc/server'
 import type { Metadata } from 'next'
 import HomePageHero from './_components/HomePageHero'
 import FlippyCard from './_components/FlippyCard'
+import RegisterServiceWorker from './_components/RegisterServiceWorker'
 
 export const metadata: Metadata = {
   title: 'AIQ',
@@ -21,6 +22,7 @@ export default async function Home() {
     <main className="relative min-h-full max-w-6xl">
       <HomePageHero />
       <FlippyCard frontText="HELLO" backText="GOODBYE" />
+      <RegisterServiceWorker path="/sw.js" />
     </main>
   )
 }

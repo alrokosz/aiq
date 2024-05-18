@@ -18,7 +18,22 @@ export default function Cards() {
       const { data } = await res.json()
       setLines(data[0].lines)
     }
-    func()
+    // func()
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(async (registration) => {
+        console.log(`A service worker is active: ${registration.active}`)
+        const swReg = await navigator.serviceWorker.ready
+        // @ts-ignore
+        const bgFetch = await swReg.backgroundFetch.fetch(
+          `ozymandias${Math.random()}`,
+          '/api/ai/cards',
+        )
+        console.log(bgFetch)
+      })
+    } else {
+      console.error('Service workers are not supported.')
+    }
   }, [])
 
   return (

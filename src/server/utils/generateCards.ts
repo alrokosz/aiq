@@ -130,7 +130,6 @@ export const generateCardsFromPDF = async (
         Math.ceil(numCards / numCalls),
         extraInfo,
       )
-      console.log(res)
       allResponses.push(res?.choices[0]?.message?.content)
     }
     return allResponses

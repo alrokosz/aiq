@@ -48,6 +48,26 @@ export const uploadRouter = createTRPCRouter({
       })
     }),
 
+  addCards: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        size: z.number(),
+        url: z.string(),
+        uploadThingKey: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(uploads).values({
+        id: nanoid(),
+        name: input.name,
+        size: input.size,
+        url: input.url,
+        userId: ctx.session.user.id,
+        uploadThingKey: input.uploadThingKey,
+      })
+    }),
+
   getUploads: protectedProcedure.query(({ ctx }) => {
     return ctx.db.query.uploads.findMany({
       where: (uploads, { eq }) => eq(uploads.userId, ctx.session.user.id),
