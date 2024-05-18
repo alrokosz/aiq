@@ -11,6 +11,23 @@ import { convertBytes } from '@/utils/lib'
 
 const { useUploadThing } = generateReactHelpers<OurFileRouter>()
 
+async function getImageBlobFromURL(url: string) {
+  console.log('url', url)
+  //Fetch image data from url
+  const res = await fetch('/api/ai/proxy', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ url }),
+  })
+  const { data } = await res.json()
+  console.log('imageData', data)
+  //Create blob of image data
+  const imageBlob = await data.blob()
+  return imageBlob
+}
+
 export default function DropBox() {
   const [files, setFiles] = useState<File[]>([])
   const [isFileTypeValid, setIsFileTypeValid] = useState<
@@ -19,14 +36,34 @@ export default function DropBox() {
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const uploadMutation = api.uploads.uploadFile.useMutation({
-    onSuccess: () => {
-      router.push('/dashboard')
+    onSuccess: async (_, { name }) => {
+      // router.push('/dashboard')
+      // const res = await fetch('/api/ai/images', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ name }),
+      // })
+      // const { data } = await res.json()
+      // const imageBlob = await getImageBlobFromURL(data.data[0].url)
+      // imageUpload([new File([imageBlob], `${name}.png`)])
     },
     onError: (error) => {
       // TODO: pop toast with error message
       console.error(error)
     },
   })
+  const { startUpload: imageUpload, isUploading: isImageUploading } =
+    useUploadThing('imageUploader', {
+      onClientUploadComplete: async (res) => {
+        console.log('image uploaded')
+      },
+      onUploadError: (error) => {
+        console.error(error)
+      },
+      onUploadBegin: () => {},
+    })
   const { startUpload, permittedFileInfo, isUploading } = useUploadThing(
     'fileUploader',
     {

@@ -2,7 +2,6 @@ import { generateCardsFromPDF } from '@/server/utils/generateCards'
 import { sleep } from '@/utils/lib'
 
 export async function GET(request: Request) {
-  console.log('IN SERVER FROM THING')
   await sleep(3000)
   const res = await fetch('https://poetrydb.org/title/Ozymandias/lines.json')
   const data = await res.json()

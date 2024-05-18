@@ -2,6 +2,7 @@ import { createUploadthing, type FileRouter } from 'uploadthing/next'
 import { UploadThingError } from 'uploadthing/server'
 import { generateCardsFromPDF } from '@/server/utils/generateCards'
 import { api } from '@/trpc/server'
+import { generateImage } from '@/server/utils/generateImages'
 
 const f = createUploadthing()
 
@@ -15,6 +16,7 @@ export const ourFileRouter = {
     // auth stuff could go here
     // .middleware(async ({ req }) => {
     .onUploadComplete(async ({ metadata, file }) => {
+      return { ...file, metadata }
       // This code RUNS ON YOUR SERVER after upload
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
@@ -23,7 +25,8 @@ export const ourFileRouter = {
   fileUploader: f({
     pdf: { maxFileSize: '32MB' },
   }).onUploadComplete(async ({ file }) => {
-    return { ...file, name: file.name.replace('.pdf', '').trim() }
+    const cleanedName = file.name.replace('.pdf', '').trim()
+    return { ...file, name: cleanedName }
   }),
 } satisfies FileRouter
 

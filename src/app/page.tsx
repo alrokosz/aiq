@@ -1,6 +1,5 @@
 import { unstable_noStore as noStore } from 'next/cache'
 import Link from 'next/link'
-import { CreatePost } from '@/app/_components/create-post'
 import { getServerAuthSession } from '@/server/auth'
 import { api } from '@/trpc/server'
 import type { Metadata } from 'next'
@@ -19,7 +18,7 @@ export default async function Home() {
   const session = await getServerAuthSession()
 
   return (
-    <main className="relative min-h-full max-w-6xl">
+    <main className="relative mx-auto min-h-full max-w-6xl">
       <HomePageHero />
       <FlippyCard frontText="HELLO" backText="GOODBYE" />
       <RegisterServiceWorker path="/sw.js" />
