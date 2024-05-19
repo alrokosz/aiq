@@ -68,7 +68,10 @@ export default function ButtonModal({
         className={clsx(
           'bg-button-alt text-button-primary-text mr-auto self-start rounded p-2 text-xs sm:p-3 sm:text-base',
           className,
-          { 'border-button-text mb-6 border-2': isMaximized },
+          {
+            'border-button-text mb-6 border-2 md:absolute md:left-6 md:top-6':
+              isMaximized,
+          },
         )}
       >
         {isMaximized ? 'Cancel' : buttonText}

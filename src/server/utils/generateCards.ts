@@ -116,7 +116,7 @@ export const generateCardsFromPDF = async (
   const allPages = docs.reduce((acc, cur) => acc + cur.pageContent, '')
 
   const numCalls = Math.ceil(allPages.length / MAX_GPT_3_TURBO_CHARACTERS)
-  const allResponses: any = []
+  const allResponses: (string | null | undefined)[] = []
   try {
     for (let i = 0; i < numCalls; i++) {
       if ((i + 1) % 3 === 0) await sleep(20000)

@@ -3,6 +3,7 @@ import * as Form from '@radix-ui/react-form'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { api } from '@/trpc/react'
+import { generateCards } from '../actions'
 
 type GeneratedCards = {
   question: string
@@ -34,25 +35,24 @@ export default function GenerateCardsForm({
     const number = formData.get('number')
     const question = formData.get('extraInfo')
     setIsLoadingFlashcards(true)
-    const res = await fetch('/api/ai/cards', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ number, question, url }),
-    })
-    const { data } = await res.json()
-    console.log(data)
-    const uploadId = window.location.href.split('/').pop()
-    cardMutation.mutate(
-      data
-        .flat()
-        .map(({ question, answer }: { question: string; answer: string }) => ({
-          front: question,
-          back: answer,
-          uploadId,
-        })),
-    )
+    if (url) {
+      const data = await generateCards(url, Number(number), String(question))
+      console.log(data)
+      const uploadId = window.location.href.split('/').pop()
+      if ('error' in data) return null
+      if (!uploadId) return null
+      cardMutation.mutate(
+        data
+          .flat()
+          .map(
+            ({ question, answer }: { question: string; answer: string }) => ({
+              front: question,
+              back: answer,
+              uploadId,
+            }),
+          ),
+      )
+    }
     setIsLoadingFlashcards(false)
     onSubmit()
   }
@@ -60,8 +60,8 @@ export default function GenerateCardsForm({
   if (isLoadingFlashcards) {
     return (
       <div className="flex w-80 items-center justify-center">
-        <h2>Generating Cards</h2>
-        <div className="Loader border-button-primary h-10 w-10 animate-spin rounded-full border-2"></div>
+        <h2 className="text-white">Generating Cards</h2>
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-white"></div>
       </div>
     )
   }
@@ -71,7 +71,10 @@ export default function GenerateCardsForm({
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { duration: 0.5 } }}
     >
-      <Form.Root className=" xs:w-80 w-full" onSubmit={handleSubmit}>
+      <Form.Root
+        className="xs:w-80 w-full pb-9 pt-6 md:py-9"
+        onSubmit={handleSubmit}
+      >
         <Form.Field className="grid" name="number">
           <div className="mb-3 flex flex-col items-center justify-between">
             <div className="mb-3 flex">
