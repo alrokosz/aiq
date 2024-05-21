@@ -68,7 +68,7 @@ export async function generateCards(
   })
   const reFilteredData = cleanedData
     .filter(Boolean)
-    .filter((data) => data && 'question' in data && 'answer' in data)
+    .filter((data) => data && Object.keys(data).length === 2)
 
   return reFilteredData as CardsContetnt[]
 }
