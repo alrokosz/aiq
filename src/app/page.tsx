@@ -6,7 +6,7 @@ import type { Metadata } from 'next'
 import HomePageHero from './_components/HomePageHero'
 import FlippyCard from './_components/FlippyCard'
 import RegisterServiceWorker from './_components/RegisterServiceWorker'
-import ScrollAreaDemo from './_components/VerticalScroll'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'AIQ',
@@ -17,6 +17,10 @@ export default async function Home() {
   noStore()
   const hello = await api.uploads.hello.query({ text: 'from tRPC' })
   const session = await getServerAuthSession()
+
+  if (session) {
+    redirect('/dashboard')
+  }
 
   return (
     <main className="relative mx-auto min-h-full max-w-6xl">
