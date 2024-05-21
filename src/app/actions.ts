@@ -1,23 +1,33 @@
 'use server'
 import { generateImage } from '@/server/utils/generateImages'
 import { generateCardsFromPDF } from '@/server/utils/generateCards'
+import { btoa } from 'buffer'
 
 type CardsContetnt = {
   question: string
   answer: string
 }
-export async function getImageBlob(url: string) {
-  console.log('url', url)
-  const res = await fetch(url)
-  const data = await res.json()
-  console.log('data', data)
-  const base64Buffer = Buffer.from(data.blob()).toString('base64')
-  return base64Buffer
-}
+
+type Ozymandias = {
+  lines: string[]
+}[]
+
+// export async function getImageBlob(url: string | undefined) {
+//   console.log('url', url)
+//   if (!url) return null
+//   const res = await fetch(url)
+//   const data = await res.blob()
+//   console.log('data', data)
+//   // const base64Buffer = Buffer.from(data).toString('base64')
+//   // const otherBuffer = data.toString()
+//   // console.log('base64Buffer', base64Buffer)
+//   // console.log('otherBuffer', otherBuffer)
+//   return data
+// }
 
 export async function getOzymandias() {
   const res = await fetch('https://poetrydb.org/title/Ozymandias/lines.json')
-  const data = await res.json()
+  const data: Ozymandias = await res.json()
   return data
 }
 

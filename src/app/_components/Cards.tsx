@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { getOzymandias } from '../actions'
 
 const SPRING = {
   type: 'spring',
@@ -10,31 +11,30 @@ const SPRING = {
 }
 
 export default function Cards() {
-  const [lines, setLines] = useState([])
+  const [lines, setLines] = useState<(string | undefined)[]>([])
 
-  // useEffect(() => {
-  //   const func = async () => {
-  //     const res = await fetch('/api/ai/cards')
-  //     const { data } = await res.json()
-  //     setLines(data[0].lines)
-  //   }
-  //   func()
+  useEffect(() => {
+    const func = async () => {
+      const data = await getOzymandias()
+      console.log(data)
+      setLines(data?.[0]?.lines ?? [])
+    }
+    func()
 
-  // if ('serviceWorker' in navigator) {
-  //   navigator.serviceWorker.ready.then(async (registration) => {
-  //     console.log(`A service worker is active: ${registration.active}`)
-  //     const swReg = await navigator.serviceWorker.ready
-  //     // @ts-ignore
-  //     const bgFetch = await swReg.backgroundFetch.fetch(
-  //       `ozymandias${Math.random()}`,
-  //       '/api/ai/cards',
-  //     )
-  //     console.log(bgFetch)
-  //   })
-  // } else {
-  //   console.error('Service workers are not supported.')
-  // }
-  // }, [])
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker.ready.then(async (registration) => {
+    //     console.log(`A service worker is active: ${registration.active}`)
+    //     const swReg = await navigator.serviceWorker.ready
+    //     const bgFetch = await swReg.backgroundFetch.fetch(
+    //       `ozymandias${Math.random()}`,
+    //       '/api/ai/cards',
+    //     )
+    //     console.log(bgFetch)
+    //   })
+    // } else {
+    //   console.error('Service workers are not supported.')
+    // }
+  }, [])
 
   return (
     <motion.div layout="position" className="mt-4" transition={SPRING}>

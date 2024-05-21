@@ -11,23 +11,6 @@ import { convertBytes } from '@/utils/lib'
 
 const { useUploadThing } = generateReactHelpers<OurFileRouter>()
 
-async function getImageBlobFromURL(url: string) {
-  console.log('url', url)
-  //Fetch image data from url
-  const res = await fetch('/api/ai/proxy', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ url }),
-  })
-  const { data } = await res.json()
-  console.log('imageData', data)
-  //Create blob of image data
-  const imageBlob = await data.blob()
-  return imageBlob
-}
-
 export default function DropBox() {
   const [files, setFiles] = useState<File[]>([])
   const [isFileTypeValid, setIsFileTypeValid] = useState<
@@ -36,22 +19,14 @@ export default function DropBox() {
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const uploadMutation = api.uploads.uploadFile.useMutation({
-    onSuccess: async (_, { name }) => {
+    onSuccess: async (_, { name, url }) => {
       // router.push('/dashboard')
-      // const res = await fetch('/api/ai/images', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ name }),
-      // })
-      // const { data } = await res.json()
-      // const imageBlob = await getImageBlobFromURL(data.data[0].url)
-      // imageUpload([new File([imageBlob], `${name}.png`)])
+      setFiles([])
     },
     onError: (error) => {
       // TODO: pop toast with error message
       console.error(error)
+      setFiles([])
     },
   })
   const { startUpload: imageUpload, isUploading: isImageUploading } =
@@ -149,83 +124,48 @@ export default function DropBox() {
             <button
               type="button"
               onClick={onBrowseClick}
-              className="rounded-full border-2 border-black p-3 peer-invalid:bg-red-600"
+              className="shadow-primary hover:bg-button-alt-hover bg-button-alt rounded-full border-2 p-3 peer-invalid:bg-red-600"
             >
-              <UploadIcon height={30} width={30} />
+              <UploadIcon color="white" height={30} width={30} />
             </button>
             <p className="text-center">
               Drag and drop file or{' '}
               <button type="button" onClick={onBrowseClick}>
-                <span className="text-purple-600">click to browse</span>
+                <span className="text-button-alt hover:text-button-alt-hover">
+                  click to browse
+                </span>
               </button>
             </p>
             <p className=" text-sm">Supported file types: .pdf</p>
           </>
         ) : (
           <>
-            <h2 className="text-xl text-black ">
+            <h2 className="text-center text-xl text-black">
               {`${files[0].name} (${convertBytes(files[0].size)})`}
             </h2>
-            <button
-              onClick={() => setFiles([])}
-              type="button"
-              className=" rounded-md border border-red-600 p-2 text-red-600"
-            >
-              Clear
-            </button>
-            <button
-              onClick={() => {
-                files.length && startUpload(files)
-              }}
-              type="submit"
-              className={clsx(
-                'mr-16 rounded-md border border-purple-600 bg-purple-600 p-2 text-white hover:bg-purple-400 active:shadow-md',
-              )}
-            >
-              Submit
-            </button>
+            <div>
+              <button
+                onClick={() => setFiles([])}
+                type="button"
+                className=" mr-4 rounded-md border border-red-600 p-2 text-red-600"
+              >
+                Clear
+              </button>
+              <button
+                onClick={() => {
+                  files.length && startUpload(files)
+                }}
+                type="submit"
+                className={clsx(
+                  'bg-button-alt text-button-primary-text border-bg-button-alt w-24 rounded-md p-2',
+                )}
+              >
+                Submit
+              </button>
+            </div>
           </>
         )}
-        {/* <div
-          className={clsx(
-            'absolute bottom-0 left-0 flex min-h-24 w-full items-center justify-end gap-5 bg-purple-400',
-            {
-              // hidden: !files.length && !isUploading,
-              'animate-slide-up': files.length,
-              'bg-green-500': files.length,
-              'bg-yellow-500': isUploading,
-            },
-          )}
-        >
-          {files[0] && (
-            <h2 className="text-xl text-white ">
-              {`${files[0].name} (${convertBytes(files[0].size)})`}
-            </h2>
-          )}
-          <button
-            onClick={() => setFiles([])}
-            type="button"
-            className=" rounded-md border border-red-600 p-2 text-red-600"
-          >
-            Clear
-          </button>
-          <button
-            onClick={() => {
-              files.length && startUpload(files)
-            }}
-            type="submit"
-            className={clsx(
-              'mr-16 rounded-md border border-purple-600 bg-purple-600 p-2 text-white hover:bg-purple-400 active:shadow-md',
-            )}
-          >
-            Submit
-          </button>
-        </div> */}
       </form>
     </>
   )
 }
-
-/* 
-        
-*/

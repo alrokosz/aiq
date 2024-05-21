@@ -6,13 +6,24 @@ import { api } from '@/trpc/server'
 import { notFound } from 'next/navigation'
 import UploadContent from '@/app/_components/UploadContent'
 
+type Upload = {
+  id: string
+  name: string | null
+  userId: string | null
+  size: number | null
+  url: string | null
+  uploadThingKey: string | null
+  uploadedAt: Date | null
+  hasFlachcards: boolean | null
+}[]
+
 export default async function UploadPage({
   params,
 }: {
   params: { uploadId: string }
 }) {
   const session = await getServerAuthSession()
-  const upload = await api.uploads.getUpload.query({
+  const upload: Upload = await api.uploads.getUpload.query({
     uploadId: params.uploadId,
   })
 

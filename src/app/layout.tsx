@@ -12,7 +12,7 @@ const josefinSans = Josefin_Sans({
 
 export const metadata = {
   title: 'AiQ',
-  description: 'generate flash cards with ai from your uploads',
+  description: 'generate flash cards with ai from pdfs or whatever',
   icons: [{ rel: 'icon', url: '/iq.svg' }],
 }
 

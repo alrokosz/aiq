@@ -99,6 +99,12 @@ export default {
         '.perspective-origin-top': {
           'perspective-origin': 'top',
         },
+        '.rotate-x-180': {
+          transform: 'rotateX(180deg)',
+        },
+        '.x-0': {
+          transform: 'rotateX(0deg)',
+        },
       })
     }),
   ],

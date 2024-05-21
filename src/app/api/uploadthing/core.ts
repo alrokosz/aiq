@@ -12,7 +12,7 @@ const auth = (req: Request) => ({ id: 'fakeId' }) // Fake auth function
 //https://docs.uploadthing.com/getting-started/appdir
 export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
-  imageUploader: f({ image: { maxFileSize: '4MB' } })
+  imageUploader: f({ image: { maxFileSize: '32GB' } })
     // auth stuff could go here
     // .middleware(async ({ req }) => {
     .onUploadComplete(async ({ metadata, file }) => {

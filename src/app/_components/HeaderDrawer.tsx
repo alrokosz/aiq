@@ -33,7 +33,7 @@ export default function HeaderDrawer({ session }: { session: Session | null }) {
   }
 
   return (
-    <div className="md:hidden">
+    <div className="z-30 md:hidden">
       <Drawer.Root
         shouldScaleBackground
         disablePreventScroll={!isDrawerOpen}
@@ -49,12 +49,12 @@ export default function HeaderDrawer({ session }: { session: Session | null }) {
           <Drawer.Handle className=" bg-gray-400 " />
           <Drawer.Overlay
             onClick={() => setIsDrawerOpen(false)}
-            className="fixed inset-0 bg-black/40"
+            className="fixed inset-0 z-10 bg-black/40"
           />
           <Drawer.Content
             onPointerDown={startDrag}
             ref={contentRef}
-            className="bg-bg-main fixed bottom-0 right-0 mt-24 flex h-full w-7/12 flex-col justify-start gap-4 px-4 py-4 md:w-[400px]"
+            className="bg-bg-main fixed bottom-0 right-0 z-30 mt-24 flex h-full w-7/12 flex-col justify-start gap-4 px-4 py-4 md:w-[400px]"
             onOpenAutoFocus={handleOpenAutoFocus}
           >
             <motion.div
@@ -72,7 +72,7 @@ export default function HeaderDrawer({ session }: { session: Session | null }) {
             >
               <MotionLink
                 href={session ? '/api/auth/signout' : '/api/auth/signin'}
-                className="bg-button-primary text-button-primary-text flex items-center justify-center rounded px-10 py-3 font-semibold"
+                className="bg-button-primary text-button-primary-text flex items-center justify-center rounded px-10 py-3 text-center font-semibold"
               >
                 {session ? 'Sign out' : 'Sign in'}
               </MotionLink>

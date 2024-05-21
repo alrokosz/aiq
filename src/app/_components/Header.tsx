@@ -16,7 +16,7 @@ import HeaderDrawer from './HeaderDrawer'
 export default async function Header() {
   const session = await getServerAuthSession()
   return (
-    <header className="bg-bg-main  sticky top-0 mx-auto flex min-h-[80px] w-full max-w-6xl items-center gap-8 px-6 py-4 text-white">
+    <header className="bg-bg-main sticky top-0 z-10 mx-auto flex min-h-[80px] w-full max-w-6xl items-center gap-8 px-6 py-4">
       <div className="mr-auto flex flex-none items-center gap-7">
         <MotionLink
           motion={false}

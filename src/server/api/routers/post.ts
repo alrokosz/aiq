@@ -71,6 +71,14 @@ export const uploadRouter = createTRPCRouter({
       })
     }),
 
+  getFlashcards: protectedProcedure
+    .input(z.object({ uploadId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.query.cards.findMany({
+        where: (cards, { eq }) => eq(cards.uploadId, input.uploadId),
+      })
+    }),
+
   getSecretMessage: protectedProcedure.query(() => {
     return 'you can now see this secret message!'
   }),

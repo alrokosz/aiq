@@ -6,6 +6,7 @@ import type { Metadata } from 'next'
 import HomePageHero from './_components/HomePageHero'
 import FlippyCard from './_components/FlippyCard'
 import RegisterServiceWorker from './_components/RegisterServiceWorker'
+import ScrollAreaDemo from './_components/VerticalScroll'
 
 export const metadata: Metadata = {
   title: 'AIQ',
