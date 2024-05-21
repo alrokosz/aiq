@@ -11,7 +11,7 @@ type GeneratedCards = {
 }[]
 
 export default function GenerateCardsForm({
-  onSubmit = () => {},
+  onSubmit,
   url,
 }: {
   onSubmit?: () => void
@@ -54,7 +54,7 @@ export default function GenerateCardsForm({
       )
     }
     setIsLoadingFlashcards(false)
-    onSubmit()
+    onSubmit?.()
   }
 
   if (isLoadingFlashcards) {
@@ -114,7 +114,7 @@ export default function GenerateCardsForm({
         <Form.Field className="mb-3 grid" name="extraInfo">
           <div className="mb-3 flex flex-col items-center justify-between gap-3">
             <Form.Label className="FormLabel text-button-primary-text xs:text-base text-sm font-semibold leading-8">
-              Anything you'd like to add?
+              Anything you want to add?
             </Form.Label>
             <Form.Control asChild>
               <textarea className="inline-flex h-28 w-full resize-none items-center justify-center rounded-md p-3 text-sm leading-none hover:shadow-sm focus:shadow" />

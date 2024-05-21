@@ -12,6 +12,8 @@ type Ozymandias = {
   lines: string[]
 }[]
 
+type ResponseData = string[]
+
 // export async function getImageBlob(url: string | undefined) {
 //   console.log('url', url)
 //   if (!url) return null
@@ -27,7 +29,7 @@ type Ozymandias = {
 
 export async function getOzymandias() {
   const res = await fetch('https://poetrydb.org/title/Ozymandias/lines.json')
-  const data: Ozymandias = await res.json()
+  const data = (await res.json()) as Promise<Ozymandias>
   return data
 }
 
@@ -43,16 +45,30 @@ export async function generateCards(
 ) {
   const data = await generateCardsFromPDF(url, number, question)
   if ('error' in data) return data
-  const cleanedData: CardsContetnt[] = data
-    .map((d) => {
-      if (d === null || d === undefined) return d
-      try {
-        return JSON.parse(d)
-      } catch (e) {
-        return null
-      }
-    })
-    .filter(Boolean)
+  // const cleanedData: CardsContetnt[] = data
+  //   .map((d) => {
+  //     if (d === null || d === undefined) return d
+  //     try {
+  //       return JSON.parse(d) as CardsContetnt
+  //     } catch (e) {
+  //       return null
+  //     }
+  //   })
+  //   .filter(Boolean)
+  //   .filter((data) => data && 'question' in data && 'answer' in data)
 
-  return cleanedData
+  const filteredData = data.filter(Boolean)
+  const cleanedData = filteredData.map((d) => {
+    if (d === null || d === undefined) return d
+    try {
+      return JSON.parse(d) as CardsContetnt
+    } catch (e) {
+      return undefined
+    }
+  })
+  const reFilteredData = cleanedData
+    .filter(Boolean)
+    .filter((data) => data && 'question' in data && 'answer' in data)
+
+  return reFilteredData as CardsContetnt[]
 }

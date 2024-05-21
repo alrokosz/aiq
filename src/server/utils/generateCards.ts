@@ -1,10 +1,10 @@
-import { MemoryVectorStore } from 'langchain/vectorstores/memory'
-import { OpenAIEmbeddings } from '@langchain/openai'
-import { YoutubeLoader } from 'langchain/document_loaders/web/youtube'
-import { CharacterTextSplitter } from 'langchain/text_splitter'
+// import { MemoryVectorStore } from 'langchain/vectorstores/memory'
+// import { OpenAIEmbeddings } from '@langchain/openai'
+// import { YoutubeLoader } from 'langchain/document_loaders/web/youtube'
+// import { CharacterTextSplitter } from 'langchain/text_splitter'
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
 import OpenAI from 'openai'
-import { pdf } from './openAIChatOptions'
+// import { pdf } from './openAIChatOptions'
 
 const exampleJSONResponse = [
   {
@@ -47,22 +47,22 @@ export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-export const createStore = (input: any) =>
-  MemoryVectorStore.fromDocuments(input, new OpenAIEmbeddings())
+// export const createStore = (input: any) =>
+//   MemoryVectorStore.fromDocuments(input, new OpenAIEmbeddings())
 
-export const docsFromYTVideo = async (video: any) => {
-  const loader = YoutubeLoader.createFromUrl(video, {
-    language: 'en',
-    addVideoInfo: true,
-  })
-  return loader.loadAndSplit(
-    new CharacterTextSplitter({
-      separator: ' ',
-      chunkSize: 2500,
-      chunkOverlap: 100,
-    }),
-  )
-}
+// export const docsFromYTVideo = async (video: any) => {
+//   const loader = YoutubeLoader.createFromUrl(video, {
+//     language: 'en',
+//     addVideoInfo: true,
+//   })
+//   return loader.loadAndSplit(
+//     new CharacterTextSplitter({
+//       separator: ' ',
+//       chunkSize: 2500,
+//       chunkOverlap: 100,
+//     }),
+//   )
+// }
 
 export const docsFromPDF = async (input: Blob) => {
   const loader = new PDFLoader(input)

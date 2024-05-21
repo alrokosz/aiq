@@ -6,11 +6,20 @@ self.addEventListener('install', async function (event) {
       'Background Fetch is not supported. Fallback to normal download.',
     )
   }
-
-  const swReg = await navigator.serviceWorker.ready
-  // @ts-ignore
-  const bgFetch = await swReg.backgroundFetch.fetch(
-    'https://poetrydb.org/title/Ozymandias/lines.json',
-  )
-  console.log(bgFetch)
 })
+
+//Service worker example in client component
+
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker.ready.then(async (registration) => {
+//     console.log(`A service worker is active: ${registration.active}`)
+//     const swReg = await navigator.serviceWorker.ready
+//     const bgFetch = await swReg.backgroundFetch.fetch(
+//       `ozymandias${Math.random()}`,
+//       '/api/ai/cards',
+//     )
+//     console.log(bgFetch)
+//   })
+// } else {
+//   console.error('Service workers are not supported.')
+// }

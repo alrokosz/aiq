@@ -18,7 +18,7 @@ export default function MotionLink({
   children,
   motion = true,
   className,
-  onClick = () => {},
+  onClick,
 }: MotionLinkProps) {
   const Tag = motion ? LinkWithMotion : Link
 

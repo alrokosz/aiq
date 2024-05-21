@@ -25,7 +25,7 @@ export default function HeaderDrawer({ session }: { session: Session | null }) {
         )
 
   const handleOpenAutoFocus = () => {
-    setDraggableHeight(draggableRef?.current?.clientHeight || 192)
+    setDraggableHeight(draggableRef?.current?.clientHeight ?? 192)
   }
 
   const startDrag = (event: React.PointerEvent) => {

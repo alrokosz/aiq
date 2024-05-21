@@ -29,20 +29,20 @@ export default function DropBox() {
       setFiles([])
     },
   })
-  const { startUpload: imageUpload, isUploading: isImageUploading } =
-    useUploadThing('imageUploader', {
-      onClientUploadComplete: async (res) => {
-        console.log('image uploaded')
-      },
-      onUploadError: (error) => {
-        console.error(error)
-      },
-      onUploadBegin: () => {},
-    })
+  // const { startUpload: imageUpload, isUploading: isImageUploading } =
+  //   useUploadThing('imageUploader', {
+  //     onClientUploadComplete: (res) => {
+  //       console.log('image uploaded')
+  //     },
+  //     onUploadError: (error) => {
+  //       console.error(error)
+  //     },
+  //     onUploadBegin: () => {},
+  //   })
   const { startUpload, permittedFileInfo, isUploading } = useUploadThing(
     'fileUploader',
     {
-      onClientUploadComplete: async (res) => {
+      onClientUploadComplete: (res) => {
         const { key, name, size, url } = res?.[0]
           ?.serverData as UploadedFileData
         uploadMutation.mutate({
@@ -153,7 +153,7 @@ export default function DropBox() {
               </button>
               <button
                 onClick={() => {
-                  files.length && startUpload(files)
+                  files.length && void startUpload(files)
                 }}
                 type="submit"
                 className={clsx(

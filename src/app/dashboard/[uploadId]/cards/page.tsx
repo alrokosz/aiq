@@ -44,8 +44,8 @@ export default async function CardsPage({
     <main className="mx-auto  max-w-6xl p-6">
       <h1 className="mb-6 text-3xl font-semibold">Flaschcards</h1>
       <div className="grid-cols-card grid max-w-6xl gap-6">
-        {cards.map(({ front, back }) => (
-          <FlippyCard frontText={front} backText={back} />
+        {cards.map(({ front, back, id }) => (
+          <FlippyCard key={id} frontText={front} backText={back} />
         ))}
       </div>
     </main>

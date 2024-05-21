@@ -13,7 +13,7 @@ export default function FlippyCard({ frontText, backText }: FlippyCardProps) {
   const [sideofCardShowing, setSideofCardShowing] = useState<
     'front' | 'back' | null
   >(null)
-  const handleCardClick = (e: any) => {
+  const handleCardClick = () => {
     if (sideofCardShowing === 'back') {
       setSideofCardShowing('front')
     } else {
