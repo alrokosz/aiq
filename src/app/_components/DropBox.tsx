@@ -55,9 +55,7 @@ export default function DropBox() {
       onUploadError: (error) => {
         console.error(error)
       },
-      onUploadBegin: () => {
-        console.log('uploading')
-      },
+      // onUploadBegin: () => {},
     },
   )
   // const router = useRouter();

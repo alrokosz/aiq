@@ -1,7 +1,6 @@
 'use server'
 import { generateImage } from '@/server/utils/generateImages'
 import { generateCardsFromPDF } from '@/server/utils/generateCards'
-import { btoa } from 'buffer'
 
 type CardsContetnt = {
   question: string
@@ -58,17 +57,16 @@ export async function generateCards(
   //   .filter((data) => data && 'question' in data && 'answer' in data)
 
   const filteredData = data.filter(Boolean)
-  const cleanedData = filteredData.map((d) => {
-    if (d === null || d === undefined) return d
-    try {
-      return JSON.parse(d) as CardsContetnt
-    } catch (e) {
-      return undefined
-    }
-  })
-  const reFilteredData = cleanedData
+  const cleanedData = filteredData
+    .map((d) => {
+      if (d === null || d === undefined) return d
+      try {
+        return JSON.parse(d) as CardsContetnt
+      } catch (e) {
+        return undefined
+      }
+    })
     .filter(Boolean)
-    .filter((data) => data && Object.keys(data).length === 2)
 
-  return reFilteredData as CardsContetnt[]
+  return cleanedData as CardsContetnt[]
 }

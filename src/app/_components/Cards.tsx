@@ -16,7 +16,6 @@ export default function Cards() {
   useEffect(() => {
     const func = async () => {
       const data = await getOzymandias()
-      console.log(data)
       setLines(data?.[0]?.lines ?? [])
     }
     void func()
